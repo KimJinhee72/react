@@ -49,10 +49,12 @@ class Myarticle extends Component {
 }
 export default class App extends Component {
   render() {
+    // 여기에서도 변수 설정하여 할 수 있음
     return (
       <div className="App">
         <Myheader title="프론트엔드 개발자" desc="기본언어인 html, css, javascript부터 학습합니다."></Myheader>
-        <Mynav></Mynav>
+        {/* <Myheader title="web" desc="web is ..."></Myheader> */}
+        <Mynav ></Mynav>
         <Myarticle></Myarticle>
       </div>
     )
