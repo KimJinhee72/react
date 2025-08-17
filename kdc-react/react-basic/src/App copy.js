@@ -5,14 +5,11 @@ import React, { Component } from 'react'
 // 헤더컴포넌트 생성
 class Myheader extends Component {
   render() {
-    console.log(this.props); // props를 콘솔에 출력하여 확인
-
     return (
       <div className="Myheader">
         <header>
-          {/* 아래 Myheader에 title과 desc를 입력해둠 */}
-          <h1 className='logo'><a href="">{this.props.title}</a></h1>
-          <p>{this.props.desc}</p>
+          <h1 className='logo'><a href="">프론트엔드 개발자</a></h1>
+          <p>기본언어인 html, css, javascript부터 학습합니다.</p>
         </header>
       </div>
     )
@@ -51,7 +48,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Myheader title="프론트엔드 개발자" desc="기본언어인 html, css, javascript부터 학습합니다."></Myheader>
+        <Myheader></Myheader>
         <Mynav></Mynav>
         <Myarticle></Myarticle>
       </div>
