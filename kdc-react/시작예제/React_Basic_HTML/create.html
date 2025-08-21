@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Basic HTML</title>
+  <link rel="stylesheet" href="css/default.css">
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 class="logo"><a href="/">프론트엔드 개발자</a></h1>
+      <p>기본언어인 html, css, javascript부터 학습합니다. </p>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="/" data-id="1">UI/UX 개발</a></li>
+        <li><a href="/" data-id="2">재사용이 가능한 UI 개발</a></li>
+        <li><a href="/" data-id="3">애니메이션 구현</a></li>
+      </ul>
+    </nav>
+    <section>
+      <article>
+        <h2>Create Task</h2>
+<form action="/create_process" method="POST">
+  <p>
+    <label for="title">Title:</label>
+    <input type="text" name="title" placeholder="title" id="title">
+  </p>
+  <p>
+    <label for="desc">Description:</label>
+    <textarea id="desc" name="desc" placeholder="description"></textarea>
+  </p>
+  <button class="primary">Submit</button>
+</form>
+      </article>
+    </section>
+    <hr>
+    <div class="menu"><a href="/create" class="primary">Create task</a></div>
+  </div>
+</body>
+
+</html>

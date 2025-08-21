@@ -39,6 +39,7 @@ header::after {
   background-color: #3498db;
 }
 .logo a {
+  font-size: 1.3rem;
   cursor: pointer;
 }
 nav ul {
@@ -104,7 +105,7 @@ form button {
   border: none;
   padding: 10px 15px;
 }
-.menu{
+.menu {
   justify-content: flex-end;
 }
 /* main */

@@ -32,5 +32,15 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./"
+  "homepage": "./",
+  "devDependencies": {
+    "eslint-plugin-react": "^7.37.5"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react"
+  ]
 }
