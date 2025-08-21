@@ -7,6 +7,9 @@
   color: #000;
   box-sizing: border-box;
 }
+li{
+  list-style: none;
+}
 hr {
   border: none;
   height: 1px;
@@ -71,8 +74,19 @@ section article {
 .content {
   background: #ebebeb;
 }
+.menu {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin: 10px auto;
+  align-items: center;
+  border-radius: 10px;
+}
+.menu li:first-child {
+  margin-bottom: 8px;
+}
 .menu a,
-.menu input {
+.menu input , .menu button {
   border-radius: 10px;
   padding: 10px 12px;
   color: #fff;
@@ -84,6 +98,7 @@ section article {
   background: #0d6efd;
 }
 .menu .secondary {
+  padding: 6.3px 12px 10px;
   background: #6c757d;
 }
 .menu .danger {

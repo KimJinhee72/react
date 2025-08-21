@@ -1,8 +1,6 @@
-'use client';
-
 // cspell:disable
 import './App.css';
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 // 헤더컴포넌트 생성
 import Myheader from './component/Myheader';
@@ -50,10 +48,12 @@ class App extends Component {
         },
       ],
     };
-  }
 
-// 리펙토링 과정
-  getArticle() {
+    
+  }
+  render() {
+    console.log('App render (실행)');
+
     // 여기에서도 변수 설정하여 할 수 있음
     let _title,
       _desc,
@@ -64,7 +64,23 @@ class App extends Component {
       _article = <ReadArticle title={_title} desc={_desc} mode={this.state.mode}></ReadArticle>;
     } else if (this.state.mode === 'read') {
       //while문을 사용하여 선택된 메뉴의 ID를 찾아서 해당 메뉴의 제목과 설명을 가져옴 먼저 초기값을 설정해야함
-      const idx = this.state.menus.findIndex((item) => {
+      // let i = 0;
+      // while (i < this.state.menus.length) {
+      //   // 메뉴(가 배열이니)의 개수(길이)만큼 반복
+      //   // if (this.state.menus[i].id === this.state.selected_menu_id) {
+      //   //   _title = this.state.menus[i].title;
+      //   //   _desc = this.state.menus[i].desc;
+      //   //   break; // 찾았으면 반복문 종료
+      //   let data = this.state.menus[i];
+      //   if (data.id === this.state.selected_id) {
+      //     _title = data.title;
+      //     _desc = data.desc; // 해당 메뉴의 제목과 설명을 가져옴
+      //     break; // 찾았으면 반복문 종료
+      //   }
+      //   i += 1; // 다음 메뉴로 이동
+      // }
+      // findIndex를 사용하여 선택된 메뉴의 ID를 찾아서 해당 메뉴의 제목과 설명을 가져옴
+      let idx = this.state.menus.findIndex((item) => {
         return item.id === this.state.selected_id; //일치하는 값을 리턴함
       });
       if (idx >= 0) {
@@ -91,27 +107,37 @@ class App extends Component {
             this.max_menu_id += 1; // 메뉴 ID를 증가시켜 새로운 메뉴의 ID를 설정
             // 직접 push를 사용하여 메뉴를 추가할 수 있지만, React에서는 state를 직접 변경하지 않고 setState를 사용해야 함
             // 함수를 사용하여 공통적으로 메뉴를 추가하는 로직을 작성을 하기위해서 push를 사용하지 않고 setState를 사용함
-            const _menus = Array.from(this.state.menus); // 기존 메뉴를 복사하여 새로운 배열 생성
+            // this.state.menus.push({
+            //   id: this.max_menu_id, // 새로운 메뉴의 ID
+            //   title: _title, // 입력된 제목
+            //   desc: _desc, // 입력된 설명
+            // this.setState({ menus: _menus,});
+
+            // .concat이용하여 새로운 배열을 생성하고 메뉴를 추가
+            //   let _menus = this.state.menus.concat({
+            //     id: this.max_menu_id, // 새로운 메뉴의 ID
+            //     title: _title, // 입력된 제목
+            //     desc: _desc, // 입력된 설명
+            //   });
+            //   this.setState({
+            //     menus: _menus, // menus를 '_menus'로 변경하여 새로 추가된  메뉴를 렌더링
+            //   });
+            // }}
+
+            // Array.from을 사용하여 새로운 배열을 생성하고 메뉴를 추가
+            let _menus = Array.from(this.state.menus); // 기존 메뉴를 복사하여 새로운 배열 생성
             _menus.push({
               id: this.max_menu_id, // 새로운 메뉴의 ID
               title: _title, // 입력된 제목
               desc: _desc, // 입력된 설명
             });
             this.setState({
-              menus: _menus,
-              mode: 'read',
-              selected_id: this.max_menu_id,
+              menus: _menus, // menus를 '_menus'로 변경하여 새로 추가된 메뉴를 렌더링
             });
           }}
         ></CreateArticle>
       );
     }
-    return _article;
-  }
-
-  render() {
-    console.log('App render (실행)');
-    // 여기에서도 변수 설정하여 할 수 있음
     return (
       <div className='App'>
         <Myheader
@@ -121,6 +147,31 @@ class App extends Component {
             this.setState({ mode: 'welcome' });
           }} // App.js 설정해 던져두면 자식 컴포넌트에서 props로 전달받아 사용할 수 있다.(this.props.onChangeMode())로 사용 , onChangeMode는 부모 컴포넌트(App.js)에서 정의된 함수로, 자식 컴포넌트(Myheader)에서 호출될 때 부모의 상태를 변경할 수 있다.
         ></Myheader>
+        {/* <header>
+          {/* 아래 Myheader에 title과 desc를 입력해둠 */}
+        {/* <h1 className='logo'> */}
+        {/* //onclick 이벤트에 fuction을 통해 클릭시 페이지 이동을 막고 state를 변경함
+            <a href='/'
+             onClick={function (e) {
+               e.preventDefault(); // a태그의 기본 동작인 페이지 이동을 막아 새로고침이 되지않음
+               alert('클릭됨');
+               this.setState({ mode: 'welcome' });//setState 를 통해 state를 변경 따로 변수명 설정없이도 가능
+             }.bind(this)}
+            >{this.state.subject.title}</a> */}
+        {/* 화살표 함수를 써서 .bind사용 없이 사용 */}
+        {/* <a
+              href='/'
+              onClick={e => {//e는 이벤트 객체가 하나밖에 없어 ()생략가능
+                e.preventDefault(); // a태그의 기본 동작인 페이지 이동을 막아 새로고침이 되지않음
+                this.setState({ mode: 'welcome' }); // setState를 통해 state를 변경 따로 변수명 설정없이도 가능
+              }}
+            >
+              {this.state.subject.title}
+            </a>
+          </h1>
+          <p>{this.state.subject.desc}</p>
+        </header> */}
+        {/* <Myheader title="web" desc="web is ..."></Myheader> */}
         <Mynav
           data={this.state.menus}
           onChangePage={(id) => {
@@ -130,8 +181,18 @@ class App extends Component {
             });
           }}
         ></Mynav>
-        {/* 복잡한 코드를 정리 하는 것을 리펙토링이라 함 */}
-        {this.getArticle()}
+        {/* mode도 기본적으로 설정된 것을 나오게 하려고 써줌 */}
+        {/* <ReadArticle
+          title={_title}
+          desc={_desc}
+          mode={this.state.mode}
+          onChangeMode={() => {
+            this.setState({
+              mode: 'create', // create 모드로 변경
+            });
+          }}
+        ></ReadArticle> */}
+        {_article}
         <hr />
         <div className='menu'>
           {/* button은 submit 역할을 하니 tpye을 버튼으로 해야함 */}
