@@ -1,3 +1,4 @@
+// 목록을 설명하는 ReadArticle에서 update 버튼
 import { Component } from 'react';
 
 class UpdateArticle extends Component {

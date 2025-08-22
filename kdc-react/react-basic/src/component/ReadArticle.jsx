@@ -1,3 +1,4 @@
+// nav 목록을 자세히 설명하는 영역
 import { Component } from 'react';
 
 class ReadArticle extends Component {
@@ -28,7 +29,14 @@ class ReadArticle extends Component {
               </li>
 
               <li>
-                <input type='button' className='danger' value='delete' />
+                <input
+                  type='button'
+                  className='danger'
+                  value='delete'
+                  onClick={() => {
+                    this.props.onChangeMode('delete');
+                  }}
+                />
               </li>
             </ul>
           </article>

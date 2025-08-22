@@ -32,7 +32,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "./",
   "devDependencies": {
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
@@ -44,5 +43,7 @@
   ],
   "plugins": [
     "react"
-  ]
+  ],
+    "homepage": "./"
 }
+

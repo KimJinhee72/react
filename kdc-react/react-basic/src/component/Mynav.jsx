@@ -1,6 +1,4 @@
-'use client';
-
-// cspell:disable
+// 2번째 목록영역
 import { Component } from 'react';
 
 class Mynav extends Component {

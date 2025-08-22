@@ -1,4 +1,4 @@
-// cspell:disable
+// 맨위 헤더영역
 import React, { Component } from 'react';
 
 class Myheader extends Component {
