@@ -1,5 +1,7 @@
+'use client';
+
 // cspell:disable
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 class Mynav extends Component {
   // App.js에서는 concat을 사용하여 새로운 메뉴를 추가하고,
@@ -23,9 +25,9 @@ class Mynav extends Component {
   }
   render() {
     console.log('Mynav render (실행)');
-    let lists = [];
+    const lists = [];
     // console.log(this.props.data);
-    let data = this.props.data;
+    const data = this.props.data;
     /*let i = 0;
     while(i < data.length) {
       // console.log(this.props.data[i]);

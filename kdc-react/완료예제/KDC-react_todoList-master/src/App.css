@@ -1,0 +1,12 @@
+body{
+  padding: 20px;
+}
+form label{
+  white-space: nowrap;
+}
+.form-check input:checked + label{
+  text-decoration: line-through;
+}
+.hidden{
+  display: none !important
+}

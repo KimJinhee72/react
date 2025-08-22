@@ -1,0 +1,7 @@
+.form-control{
+  display: inline-block !important;
+  width: auto!important;
+}
+.hidden{
+  display: none;
+}

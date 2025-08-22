@@ -10,13 +10,13 @@ import React from 'react';  // React 라이브러리에서 React를 가져옵니
 // import React, { useCallback } from 'react';  // useCallback 훅을 가져옵니다. (현재 사용하지 않음)
 // import React, { useLayoutEffect } from 'react';  // useLayoutEffect 훅을 가져옵니다. (현재 사용하지 않음)
 // import React, { useImperativeHandle } from 'react';  // useImperativeHandle 훅을 가져옵니다. (현재 사용하지 않음)
-// import React, { forwardRef } from 'react';  // forwardRef를 가져옵니다. (현재 사용하지 않음) 
+// import React, { forwardRef } from 'react';  // forwardRef를 가져옵니다. (현재 사용하지 않음)
 
 // 헤더컴포넌트 생성
 function Myheader() {
   return (
       <header>
-        <h1 className='logo'><a href="">프론트엔드 개발자</a></h1>
+        <h1 className='logo'><a href="/">프론트엔드 개발자</a></h1>
         <p>기본언어인 html, css, javascript부터 학습합니다.</p>
       </header>
   );
@@ -34,9 +34,9 @@ function Mynav() {
   return (
       <nav>
         <ul>
-          <li><a href="">UI/UX 개발</a></li>
-          <li><a href="">재사용이 가능한 UI개발</a></li>
-          <li><a href="">애니메이션 구현</a></li>
+          <li><a href="/">UI/UX 개발</a></li>
+          <li><a href="/">재사용이 가능한 UI개발</a></li>
+          <li><a href="/">애니메이션 구현</a></li>
         </ul>
       </nav>
   );

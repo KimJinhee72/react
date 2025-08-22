@@ -12,16 +12,14 @@ import Mynav from './component/Mynav';
 import ReadArticle from './component/ReadArticle';
 // CreateArticle 컴포넌트 생성
 import CreateArticle from './component/CreateArticle';
+// UpdateArticle 컴포넌트 생성
+import UpdateArticle from './component/UpdateArticle';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.max_menu_id = 3; // 메뉴의 최대 ID 초기화
-    // constructor(props) {
-    // super(props);생략해서 바로 this.state를 설정할 수 있지만,
-    // props를 사용해야 할 경우가 있기 때문에 super(props)를 사용하는 것이 좋다.
-    // 컴포넌트의 생성자에서 state를 초기화하는 것이 일반적
-    // props를 통해 부모 컴포넌트로부터 전달된 값을 사용할 수 있다
+
     // state 설정
     this.state = {
       mode: 'welcome', // 초기 모드 설정
@@ -51,67 +49,92 @@ class App extends Component {
       ],
     };
   }
+  // getReadArticle 메소드 생성 일치 함수 씀
+  getReadArticle() {
+    const idx = this.state.menus.findIndex((item) => item.id === this.state.selected_id);
+    const data = this.state.menus[idx];
+    return data;
+  }
 
-// 리펙토링 과정
   getArticle() {
-    // 여기에서도 변수 설정하여 할 수 있음
     let _title,
       _desc,
       _article = null;
+
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
       _article = <ReadArticle title={_title} desc={_desc} mode={this.state.mode}></ReadArticle>;
     } else if (this.state.mode === 'read') {
-      //while문을 사용하여 선택된 메뉴의 ID를 찾아서 해당 메뉴의 제목과 설명을 가져옴 먼저 초기값을 설정해야함
-      const idx = this.state.menus.findIndex((item) => {
-        return item.id === this.state.selected_id; //일치하는 값을 리턴함
-      });
-      if (idx >= 0) {
-        _title = this.state.menus[idx].title;
-        _desc = this.state.menus[idx].desc; // 해당 메뉴의 제목과 설명을 가져옴
-        _article = (
-          <ReadArticle
-            title={_title}
-            desc={_desc}
-            onChangeMode={() => {
-              this.setState({
-                mode: 'create',
-              });
-            }}
-          ></ReadArticle>
-        );
-      }
+      const _data = this.getReadArticle();
+      _article = (
+        <ReadArticle
+          title={_data.title}
+          desc={_data.desc}
+          onChangeMode={(_mode) => {
+            this.setState({
+              mode: _mode,
+            });
+          }}
+        ></ReadArticle>
+      );
     } else if (this.state.mode === 'create') {
       _article = (
         <CreateArticle
           onSubmit={(_title, _desc) => {
-            console.log(`제목: ${_title}, 설명: ${_desc}`); // 폼 제출 시 제목과 설명을 콘솔에 출력
-            // 새로운 메뉴를 추가하는 로직
-            this.max_menu_id += 1; // 메뉴 ID를 증가시켜 새로운 메뉴의 ID를 설정
-            // 직접 push를 사용하여 메뉴를 추가할 수 있지만, React에서는 state를 직접 변경하지 않고 setState를 사용해야 함
-            // 함수를 사용하여 공통적으로 메뉴를 추가하는 로직을 작성을 하기위해서 push를 사용하지 않고 setState를 사용함
-            const _menus = Array.from(this.state.menus); // 기존 메뉴를 복사하여 새로운 배열 생성
+            console.log(`제목: ${_title}, 설명: ${_desc}`);
+            this.max_menu_id += 1;
+            const _menus = Array.from(this.state.menus);
             _menus.push({
-              id: this.max_menu_id, // 새로운 메뉴의 ID
-              title: _title, // 입력된 제목
-              desc: _desc, // 입력된 설명
+              id: this.max_menu_id,
+              title: _title,
+              desc: _desc,
             });
             this.setState({
               menus: _menus,
-              mode: 'read',
-              selected_id: this.max_menu_id,
+              mode: 'read',//수정(update)청에서 제출하고 목록이 나오게 하려고
+              selected_id: this.max_menu_id,// 목록하나 더 추가됨
             });
           }}
         ></CreateArticle>
       );
+    } else if (this.state.mode === 'update') {
+      const _content = this.getReadArticle();
+      _article = (
+        <UpdateArticle
+          data={_content}
+          onSubmit={(_id, _title, _desc) => {
+            console.log(`아이디: ${_id}, 제목: ${_title}, 설명: ${_desc}`);
+            // this.max_menu_id += 1;
+            const _menus = Array.from(this.state.menus);
+            // push로 하면 기존에 수정이 아니라 새로이 다시 생성이 됨
+            // _menus.push({
+            //   id: this.max_menu_id,
+            //   title: _title,
+            //   desc: _desc,
+            // });
+
+            // push가 아니라 forEach로 사용하니 수정이 됨
+            _menus.forEach((item, index) => {
+              if (item.id === _id) {
+                _menus[index] = { id: _id, title: _title, desc: _desc }; //_id등은 수정한 새로운 내용
+              }
+            });
+            this.setState({
+              menus: _menus, //로 하면 제출해도 그대로 남아있어서
+              mode: 'read' //까지 해야 제출후 read기존목록이 수정되어 보여짐
+            });
+          }}
+        ></UpdateArticle>
+      );
     }
+
     return _article;
   }
 
   render() {
     console.log('App render (실행)');
-    // 여기에서도 변수 설정하여 할 수 있음
+
     return (
       <div className='App'>
         <Myheader
@@ -119,28 +142,28 @@ class App extends Component {
           desc={this.state.subject.desc}
           onChangeMode={(id) => {
             this.setState({ mode: 'welcome' });
-          }} // App.js 설정해 던져두면 자식 컴포넌트에서 props로 전달받아 사용할 수 있다.(this.props.onChangeMode())로 사용 , onChangeMode는 부모 컴포넌트(App.js)에서 정의된 함수로, 자식 컴포넌트(Myheader)에서 호출될 때 부모의 상태를 변경할 수 있다.
+          }}
         ></Myheader>
         <Mynav
           data={this.state.menus}
           onChangePage={(id) => {
             this.setState({
               mode: 'read',
-              selected_id: id, // 선택된 메뉴의 ID를 설정
+              selected_id: id,
             });
           }}
         ></Mynav>
-        {/* 복잡한 코드를 정리 하는 것을 리펙토링이라 함 */}
+
         {this.getArticle()}
+
         <hr />
         <div className='menu'>
-          {/* button은 submit 역할을 하니 tpye을 버튼으로 해야함 */}
           <button
             type='button'
             className='primary'
             onClick={() => {
               this.setState({
-                mode: 'create', // create 모드로 변경
+                mode: 'create',
               });
             }}
           >
@@ -151,4 +174,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

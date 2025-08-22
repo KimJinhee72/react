@@ -15,10 +15,18 @@ class ReadArticle extends Component {
             <p>{this.props.desc}</p>
             <ul className={className}>
               <li>
-                <a href='/update' className='secondary'>
+                <a
+                  href='/update'
+                  className='secondary'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.props.onChangeMode('update'); // 부모 컴포넌트의 상태 변경 함수 호출
+                  }}
+                >
                   update
                 </a>
               </li>
+
               <li>
                 <input type='button' className='danger' value='delete' />
               </li>

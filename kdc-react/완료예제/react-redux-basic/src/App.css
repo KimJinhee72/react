@@ -1,0 +1,22 @@
+body{
+  padding: 20px;
+}
+h1,h2,h3{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 10px;  
+}
+.App{
+  background: #ebebeb;
+  padding: 10px;
+}
+.App div {
+  background: rgba(0,0,0,.1);
+  padding: 10px;
+}
+input{
+  width: 30px;
+  padding: 0;
+  margin: 0;
+}
