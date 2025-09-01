@@ -33,7 +33,7 @@ class ReadArticle extends Component {
                   type='button'
                   className='danger'
                   value='delete'
-                  onClick={() => {
+                  onClick={() => { 
                     this.props.onChangeMode('delete');
                   }}
                 />
