@@ -6,3 +6,11 @@ GitHub에서 파일 만들면서 public을 해야 깃허브페이지 또는 netl
 vs code에 레퍼지스토리와 연동하기 위해 git init 후 git add .하면 모든 파일을 깃에 다 올릴 수 있다.
 혹시 main 없이 혼자하면 굳이 쓰지 않아도 되어 그냥 master로 써도 됨
 그러나 깃 저장소(레포지스토리) build 폴더는 따로 없다.
+
+#깃 저장소 만들후 vs에서 폴더와 깃저장소 연결해주기(가상의 공간)
+1. git init
+2. git add . (add다음에 파일명 넣으면 그 파일만 올리는 것이나 모두 올리려면 . 으로)
+3. git branch -M main (main 말고 master로 나혼자 쓸때는 생략가능)
+4. git remote add origin https://github.com/KimJinhee72/react.git (저장소 이름 아래 code로 가서 addfile 옆 code에 url 복사
+5. git bush -u origin main
+==> 1-5번 까지 하면 완료되어 깃허브 페이지에 올라감
