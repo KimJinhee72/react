@@ -14,3 +14,7 @@ vs code에 레퍼지스토리와 연동하기 위해 git init 후 git add .하�
 4. git remote add origin https://github.com/KimJinhee72/react.git (저장소 이름 아래 code로 가서 addfile 옆 code에 url 복사
 5. git bush -u origin main
 ==> 1-5번 까지 하면 완료되어 깃허브 페이지에 올라감
+   * 커밋 푸시
+     1.  git add .
+     2.  git commit -m 'title 변경'
+     3.  git push
