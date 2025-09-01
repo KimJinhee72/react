@@ -5,4 +5,4 @@ build 폴더 안에 index.html을 open live serve하면 작성한 것이 나옴
 GitHub에서 파일 만들면서 public을 해야 깃허브페이지 또는 netlify, vercel등에 쓸수 있다.
 vs code에 레퍼지스토리와 연동하기 위해 git init 후 git add .하면 모든 파일을 깃에 다 올릴 수 있다.
 혹시 main 없이 혼자하면 굳이 쓰지 않아도 되어 그냥 master로 써도 됨
-깃에 그러나 build 폴더는 따로 없다.
+그러나 깃 저장소(레포지스토리) build 폴더는 따로 없다.
