@@ -27,7 +27,7 @@ class App extends Component {
       //welcome에 대한 내용 설정
       welcome: { title: 'Welcome', desc: 'Welcome to FrontEnd' },
       subject: {
-        title: '프론트엔드 개발자',
+        title: '프론트엔드 개발자 역량',
         desc: '기본언어인 html, css, javascript부터 학습합니다.',
       },
       // 데이터베이스 연동이 없기에 update delete해도 새로고침하면 원본 그대로 유지됨
@@ -75,19 +75,19 @@ class App extends Component {
           onChangeMode={(_mode) => {
             // this.state.mode가 update가 되면 아래로 가서 실행되고
             // delete button
-            if(_mode === 'delete'){
-              if(window.confirm(`정말로 삭제하시겠습니까?`)){
-                let _menus=Array.from(this.state.menus)
-                let idx=_menus.findIndex(item=>(item.id === this.state.selected_id))
+            if (_mode === 'delete') {
+              if (window.confirm(`정말로 삭제하시겠습니까?`)) {
+                let _menus = Array.from(this.state.menus);
+                let idx = _menus.findIndex((item) => item.id === this.state.selected_id);
                 console.log(idx);
                 //원본 배열에 menus의 배열 중 _menus.splice(배열인덱스위치,지우는 개수)
-                _menus.splice(idx,1)
+                _menus.splice(idx, 1);
                 this.setState({
-                  menus:_menus,//지워진 menus로 업데이트
-                  mode:'welcome',//지운후 첫페이지로 보여짐
-                })
+                  menus: _menus, //지워진 menus로 업데이트
+                  mode: 'welcome', //지운후 첫페이지로 보여짐
+                });
               }
-            }else{
+            } else {
               this.setState({
                 mode: _mode,
               });
