@@ -118,7 +118,7 @@ function App() {
           <Route path='/task/*' element={<Tasks />} /> {/* 수정 통일해 tasks로 쓰거나 task로 쓰려면 여길 바꾸면 됨 */}
           <Route path='/qna' element={<Qna />} />
         </Routes>
-      </div>
+      </div>  
     </BrowserRouter>
   );
 }
