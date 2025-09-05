@@ -7,7 +7,7 @@ vs code에 레퍼지스토리와 연동하기 위해 git init 후 git add .하�
 혹시 main 없이 혼자하면 굳이 쓰지 않아도 되어 그냥 master로 써도 됨
 그러나 깃 저장소(레포지스토리) build 폴더는 따로 없다.
 
-#깃 저장소 만들후 vs에서 폴더와 깃저장소 연결해주기(가상의 공간)-정적인 페이지 가능+ 파이어베이스연동 가능
+# 깃 저장소 만들후 vs에서 폴더와 깃저장소 연결해주기(가상의 공간)-정적인 페이지 가능+ 파이어베이스연동 가능
 1. git init
 2. git add . (add다음에 파일명 넣으면 그 파일만 올리는 것이나 모두 올리려면 . 으로)
 3. git branch -M main (main 말고 master로 나혼자 쓸때는 생략가능)
@@ -18,3 +18,12 @@ vs code에 레퍼지스토리와 연동하기 위해 git init 후 git add .하�
      1.  git add .
      2.  git commit -m 'title 변경'
      3.  git push
+
+
+# 새로운 폴더 만들기
+1. cmd or 만들고 싶은 위치에서 shift+우클릭(여기에서 powershell)
+2. npx create-react-app 파일명(reacet-router-basic):폴더 생성 및 node.js 깔림
+3. vs code 열어 npm start
+4. App.js(import './App.css'; function App() {  return ( <div className="App">  </div>  );}) App.css(내용 body{paddding:20px;}) index.css index.js(import React from 'react'; import ReactDOM from 'react-dom/client'; import App from './App'; 
+const root = ReactDOM.createRoot(document.getElementById('root'));   root.render(  <App /> ); 만 남김
+5. npm install react-router-dom 
