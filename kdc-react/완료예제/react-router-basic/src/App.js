@@ -16,7 +16,7 @@ function Home(){
         <h2>프론트엔드 개발자 역할</h2>
         <p>기본언어인 html, css, javascript부터 학습합니다.</p>
       </header>
-      <nav>        
+      <nav>
         <Link to="/tasks">Tasks</Link>
         <Link to="/qna">Qna</Link>
       </nav>
@@ -34,7 +34,7 @@ function Task(){
   let task_id = params.task_id;
   console.log(task_id);
 
-  let selected_task = { 
+  let selected_task = {
     title:'Sorry',
     description:'Not Found'
   };
@@ -44,7 +44,7 @@ function Task(){
 
   return(
     <div>
-      <h3>{selected_task.title}</h3> 
+      <h3>{selected_task.title}</h3>
       <p>{selected_task.desc}</p>
     </div>
   );
@@ -64,11 +64,11 @@ function Tasks(){
       <nav>
         <ul>
           {list}
-        </ul>        
+        </ul>
       </nav>
-      <Routes>           
-        <Route path=":task_id" element={ <Task /> } />                 
-      </Routes>      
+      <Routes>
+        <Route path=":task_id" element={ <Task /> } />
+      </Routes>
     </div>
   );
 }
@@ -91,7 +91,7 @@ function App() {
           <li><NavLink to="/">Home</NavLink></li>
           <li><NavLink to="/tasks">Tasks</NavLink></li>
           <li><NavLink to="/qna">Qna</NavLink></li>
-        </ul>        
+        </ul>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
