@@ -1,13 +1,14 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import './App.css';
-import CounterRoot from './components/CounterRoot';
-import DisplayCountRoot from './components/DisplayCountRoot';
+import Counter from './components/Counter';
+import DisplayCount from './components/DisplayCount';
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   return (
     <div className='App'>
       <h1>Root</h1>
+      {/* redux로 바로 받을수 있어서
       <CounterRoot
         changeCount={(count) => {
           // setCount(count);
@@ -15,7 +16,9 @@ function App() {
           setCount(count);
         }}
       />
-      <DisplayCountRoot count={count} />
+      <DisplayCountRoot count={count} /> */}
+      <Counter></Counter>
+      <DisplayCount></DisplayCount>
     </div>
   );
 }
