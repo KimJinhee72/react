@@ -5,3 +5,7 @@ form label{
   /*기본적으로 텍스트가 너무 길면 자동으로 줄바꿈되지만, nowrap을 주면 텍스트가 한 줄로 유지  */
   white-space: nowrap;
 }
+/* +로 뒤에 행동할 위치 지정 */
+.form-check-input:checked + label {
+  text-decoration: line-through;
+}
