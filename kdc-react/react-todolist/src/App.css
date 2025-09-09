@@ -9,3 +9,6 @@ form label{
 .form-check-input:checked + label {
   text-decoration: line-through;
 }
+.hidden{
+  display: none !important;
+}
