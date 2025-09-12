@@ -4,11 +4,26 @@ body{
 form label{
   /*기본적으로 텍스트가 너무 길면 자동으로 줄바꿈되지만, nowrap을 주면 텍스트가 한 줄로 유지  */
   white-space: nowrap;
+  margin: 0;
 }
-/* +로 뒤에 행동할 위치 지정 */
-.form-check-input:checked + label {
+/* +로 뒤에 행동할 위치 지정 CSS에서 + 선택자는 바로 뒤에 있는 형제에만 적용되는데, React-Bootstrap의 <Form.Check>는 내부적으로 <input>을 감싸는 구조가 있어서 바로 뒤의 <span>까지 선택이 안 될 가능성이 높음   */
+/* .form-check-input:checked + label {
   text-decoration: line-through;
-}
+} */
 .hidden{
   display: none !important;
+}
+
+.btn-success{
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+}
+.btn:hover{
+  border-color: red !important;
+  background-color: red !important;
+}
+.plusSvg:hover{
+  border-color: green;
 }
