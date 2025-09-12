@@ -11,13 +11,7 @@ function App() {
   // input 포커스 상태 관리
   const [focusedCategory, setFocusedCategory] = useState(null);
 
-  // 초기 todo 세트
-  const [initialTodoSets] = useState({
-    스케줄: [],
-    업무: [],
-    개인: [],
-  });
-
+  // Basicset 버튼 기본 todo 세팅값
   const todoSets = {
     스케줄: [
       { id: 1, text: '7시 친구 만나기', checked: false },
@@ -31,6 +25,21 @@ function App() {
       { id: 1, text: 'Learn Web', checked: false },
       { id: 2, text: 'Get a job', checked: false },
     ],
+  };
+  // Basicset 버튼 기본set 클릭이벤트
+  const handleBasicResettodoList = () => {
+    if (window.confirm('정말 기본 설정으로 되돌릴까요?')) {
+      // 1. todos 상태를 초기 todoSets 객체로 설정
+      setTodos(todoSets);
+
+      // 2. categoryInputs 상태도 초기화
+      // todos의 키(카테고리 이름)를 가져와서 categoryInputs 상태에 반영
+      const initialCategoryInputs = Object.keys(todoSets).reduce((acc, cat) => {
+        acc[cat] = cat;
+        return acc;
+      }, {});
+      setCategoryInputs(initialCategoryInputs);
+    }
   };
 
   // 전체 상태
@@ -100,6 +109,36 @@ function App() {
       [newName]: newName, // 새 카테고리 이름
     }));
   };
+  // 카테고리 이름을 바로 셀렉트에 반영할 함수
+ const handleUpdateCategoryName = (oldName, newName) => {
+   // 새로운 이름이 기존 이름과 같거나 비어있으면 아무것도 하지 않음
+   if (oldName === newName || newName.trim() === '') {
+     // 입력 필드를 원래 이름으로 되돌림
+     setCategoryInputs((prev) => ({ ...prev, [oldName]: oldName }));
+     return;
+   }
+
+   // todos 상태 업데이트
+   setTodos((prevTodos) => {
+     const newTodos = {};
+     Object.keys(prevTodos).forEach((key) => {
+       if (key === oldName) {
+         newTodos[newName] = prevTodos[key];
+       } else {
+         newTodos[key] = prevTodos[key];
+       }
+     });
+     return newTodos;
+   });
+
+   // categoryInputs 상태 업데이트
+   setCategoryInputs((prevInputs) => {
+     const newInputs = { ...prevInputs };
+     newInputs[newName] = newInputs[oldName];
+     delete newInputs[oldName];
+     return newInputs;
+   });
+ };
 
   // 카테고리 삭제
   const handleDeleteCategory = (cat) => {
@@ -117,17 +156,19 @@ function App() {
   // 전체 초기화 함수
   const handleResettodoList = () => {
     if (window.confirm('정말 처음 상태로 되돌릴까요?')) {
-      const firstCategory = Object.keys(todoSets)[0];
+      const firstCategory = Object.keys(todos)[0]; // 첫 번째 카테고리만 선택
+
+      // todos 상태: 첫 번째 카테고리만 빈 배열로 초기화
       setTodos({
-        [firstCategory]: [], // 첫 번째 카테고리만 남기고 빈 배열
+        [firstCategory]: [],
       });
 
-      // 카테고리 입력 값도 초기화
+      // 카테고리 입력값 상태도 첫 번째 카테고리만 남기고 초기화
       setCategoryInputs({
-        [firstCategory]: '', // 첫 번째 카테고리 타이틀 입력 비우기
+        [firstCategory]: firstCategory, // 라벨로 카테고리 이름 그대로 유지
       });
 
-      // 포커스 초기화
+      // 포커스/호버 초기화
       setFocusedCategory(null);
       setHoverCategory(null);
     }
@@ -171,22 +212,88 @@ function App() {
 
   return (
     <div className='App' style={{ padding: '20px', maxWidth: '600px' }}>
-      <h1>Todo List</h1>
+      <div className='d-flex justify-content-between'>
+        <h1>Todo List</h1>
+        <div>
+          <Button
+            type='button'
+            variant='outline-danger'
+            style={{
+              width: 'auto', // 내용만큼 폭
+              display: 'inline-flex', // 아이콘+텍스트 가로 정렬
+              alignItems: 'center', // 아이콘 세로 가운데
+              gap: '4px', // 아이콘과 텍스트 간격
+              whiteSpace: 'nowrap', // 텍스트 줄바꿈 방지
+            }}
+            onClick={handleResettodoList}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='20'
+              height='20'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='icon icon-tabler icon-tabler-rotate-clockwise'
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5' />
+            </svg>
+            Reset
+          </Button>
+          <Button
+            type='button'
+            variant='warning'
+            style={{
+              width: 'auto', // 내용만큼 폭
+              display: 'inline-flex', // 아이콘+텍스트 가로 정렬
+              marginLeft: '8px',
+              alignItems: 'center', // 아이콘 세로 가운데
+              gap: '4px', // 아이콘과 텍스트 간격
+              whiteSpace: 'nowrap', // 텍스트 줄바꿈 방지
+            }}
+            onClick={handleBasicResettodoList}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='20'
+              height='20'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='icon icon-tabler icon-tabler-rotate-clockwise'
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5' />
+            </svg>
+            Basicset
+          </Button>
+        </div>
+      </div>
 
-      {/* 입력 폼 */}
+      {/* 할일입력 폼(list) */}
       <Form
         onSubmit={(e) => {
           e.preventDefault();
           const text = e.target.todo.value;
           const category = e.target.category.value;
           addTodo(category, text);
+          // 인풋 비우기
+          if (inputRef.current) inputRef.current.value = '';
         }}
-        className='w-100 mb-4 d-flex gap-2'
+        className='w-100 mb-4 d-flex gap-2 '
       >
         {/* 영역선택 */}
         <Form.Select
           name='category'
           ref={categoryRef}
+          className='sameCatInput'
           style={{
             width: 'auto',
             display: 'inline-flex',
@@ -197,7 +304,7 @@ function App() {
         >
           {Object.keys(todos).map((cat) => (
             <option key={cat} value={cat}>
-              {cat}
+              {categoryInputs[cat] || cat}
             </option>
           ))}
         </Form.Select>
@@ -248,8 +355,10 @@ function App() {
           style={{
             width: 'auto', // 내용만큼 폭
             display: 'inline-flex', // 아이콘+텍스트 가로 정렬
+            paddingLeft: '11px',
+            paddingRight: '11px',
             alignItems: 'center', // 아이콘 세로 가운데
-            gap: '4px', // 아이콘과 텍스트 간격
+            gap: '2px', // 아이콘과 텍스트 간격
             whiteSpace: 'nowrap', // 텍스트 줄바꿈 방지
           }}
         >
@@ -269,36 +378,7 @@ function App() {
             <path d='M15 16h6' />
             <path d='M18 13v6' />
           </svg>
-          ListUp
-        </Button>
-        <Button
-          type='button'
-          variant='warning'
-          style={{
-            width: 'auto', // 내용만큼 폭
-            display: 'inline-flex', // 아이콘+텍스트 가로 정렬
-            alignItems: 'center', // 아이콘 세로 가운데
-            gap: '4px', // 아이콘과 텍스트 간격
-            whiteSpace: 'nowrap', // 텍스트 줄바꿈 방지
-          }}
-          onClick={handleResettodoList}
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='20'
-            height='20'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='icon icon-tabler icon-tabler-rotate-clockwise'
-          >
-            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-            <path d='M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5' />
-          </svg>
-          Reset
+          <span style={{ letterSpacing: '2px' }}> ListUp </span>
         </Button>
       </Form>
       <hr />
@@ -326,10 +406,24 @@ function App() {
               <div key={category} style={{ position: 'relative', marginBottom: '20px' }}>
                 <Form.Control
                   type='text'
-                  value={categoryInputs[category]}
+                  value={categoryInputs[category] || category}
                   onChange={(e) => handleCategoryChange(category, e.target.value)}
                   onFocus={() => setFocusedCategory(category)}
-                  onBlur={() => setFocusedCategory(null)}
+                  onBlur={() => {
+                    // 포커스를 잃었을 때, todos 상태 업데이트
+                    handleUpdateCategoryName(category, categoryInputs[category]);
+                    setFocusedCategory(null);
+                  }}
+                  onKeyPress={(e) => {
+                    // 엔터 키를 눌렀을 때
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleUpdateCategoryName(category, categoryInputs[category]);
+                      // 엔터 입력 후 포커스 해제
+                      e.target.blur();
+                    }
+                  }}
+                  className='sameSelectNm'
                   style={{
                     border: 'none',
                     paddingRight: '30px',
@@ -337,7 +431,8 @@ function App() {
                     fontWeight: 'bold',
                   }}
                 />
-
+                {/* Todo 항목 리스트는 비어 있음 */}
+                {todos[category].length === 0 && <span></span>}
                 {/* X 버튼: 현재 포커스된 카테고리와 일치할 때만 표시 */}
                 {focusedCategory === category && (
                   <svg
