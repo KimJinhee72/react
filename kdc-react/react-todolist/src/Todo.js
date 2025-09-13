@@ -20,6 +20,7 @@ const Todo = ({ data, deleteTodo, setChecked, updateTodo }) => {
           {/* 체크박스 */}
           <Form.Check
             type='checkbox' // 체크박스 타입 지정
+            autoFocus={false} // 기본 자동 포커스 제거
             checked={isChecked} // 체크 상태를 isChecked 상태 값으로 제어 (controlled component)
             onChange={handleCheckbox} // 체크박스 상태 변경 시 handleCheckbox 함수 호출
             style={{
@@ -35,7 +36,7 @@ const Todo = ({ data, deleteTodo, setChecked, updateTodo }) => {
               textDecoration: isChecked ? 'line-through' : 'none', // 체크되면 줄긋기, 아니면 원래 상태
             }}
           >
-            {text} 
+            {text}
           </span>
 
           <Button variant='outline-info' size='sm' onClick={() => setMode('edit')}>
@@ -50,12 +51,50 @@ const Todo = ({ data, deleteTodo, setChecked, updateTodo }) => {
       {/* 편집 모드 */}
       {mode === 'edit' && (
         <>
-          <Form.Control
-            type='text'
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            style={{ flexGrow: 1 }}
-          />
+          <div style={{ position: 'relative', flexGrow: 1 }}>
+            <Form.Control
+              type='text'
+              value={text}
+              autoFocus={false} // 기본 자동 포커스 제거
+              onChange={(e) => setText(e.target.value)}
+              style={{ flexGrow: 1, paddingRight: '2.5rem' }}
+              onKeyPress={(e) => {
+                // 엔터 키를 눌렀을 때
+                if (e.key === 'Enter') {
+                  e.preventDefault(); // 폼 제출 기본 동작 방지
+                  updateTodo(data.id, text); // todo 텍스트 업데이트
+                  setMode('read'); // 읽기 모드로 변경
+                }
+              }}
+            />
+            {/* 텍스트가 있을 때만 X 버튼 표시 */}
+            {text && (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='20'
+                height='20'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: '10px',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  color: '#666',
+                }}
+                onClick={() => setText('')} // 클릭하면 텍스트를 빈 문자열로 설정
+              >
+                <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                <path d='M18 6l-12 12' />
+                <path d='M6 6l12 12' />
+              </svg>
+            )}
+          </div>
           <Button
             variant='secondary'
             size='sm'

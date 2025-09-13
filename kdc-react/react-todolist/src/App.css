@@ -10,6 +10,17 @@ form label{
 /* .form-check-input:checked + label {
   text-decoration: line-through;
 } */
+
+/* 기본적으로 커서 숨김 */
+input {
+  caret-color: transparent;
+}
+
+/* focus 되었을 때만 커서 표시 */
+input:focus {
+  caret-color: auto; /* 또는 원하는 색상 #000 */
+}
+
 .hidden{
   display: none !important;
 }

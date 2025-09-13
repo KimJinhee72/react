@@ -315,6 +315,7 @@ function App() {
             name='todo'
             placeholder='할일 입력'
             ref={inputRef}
+            autoFocus={false} // 기본 자동 포커스 제거
             onChange={(e) => handleCategoryChange(inputRef, e.target.value)}
             onFocus={() => setFocusedCategory(inputRef)}
             onBlur={() => setFocusedCategory(null)}
@@ -407,6 +408,7 @@ function App() {
                 <Form.Control
                   type='text'
                   value={categoryInputs[category] || category}
+                  autoFocus={false} // 기본 자동 포커스 제거
                   onChange={(e) => handleCategoryChange(category, e.target.value)}
                   onFocus={() => setFocusedCategory(category)}
                   onBlur={() => {
