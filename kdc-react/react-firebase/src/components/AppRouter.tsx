@@ -1,3 +1,4 @@
+// Router.tsx → props로 받은 isLoggedIn 값에 따라 다른 화면 보여줌 true → Home 컴포넌트 보여줌 false → Auth 컴포넌트 보여줌
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Auth } from '../routes/Auth';
@@ -12,6 +13,7 @@ interface AppRouterProps {
 export const AppRouter: React.FC<AppRouterProps> = ({ isLoggedIn }) => {
   return (
     <Routes>
+      {/* isLoggedIn 설정상태 관계없이 삼항연산자는 true면 앞에 false면 뒤에 내용을 두면 됨 */}
       {isLoggedIn ? (
         //<></>안에 더 많은 내용을 넣게 만들어 둠
         <>
