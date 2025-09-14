@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { AppRouter } from './AppRouter';
 import { authService } from '../firebase';
+
+// getAuth는 Firebase Authentication 모듈에서 로그인/회원가입, 사용자 정보 관리를 하기 위해 쓰는 함수
+// onAuthStateChanged 현재 로그인한 사용자 가져오기
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 console.log(authService);
