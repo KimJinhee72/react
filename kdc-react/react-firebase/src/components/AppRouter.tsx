@@ -1,6 +1,6 @@
 // Router.tsx → props로 받은 isLoggedIn 값에 따라 다른 화면 보여줌 true → Home 컴포넌트 보여줌 false → Auth 컴포넌트 보여줌
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Auth } from '../routes/Auth';
 import { Home } from '../routes/Home';
 import { Nav } from './Nav';
@@ -26,11 +26,11 @@ export const AppRouter: React.FC<AppRouterProps> = ({ isLoggedIn }) => {
           //<></>안에 더 많은 내용을 넣게 만들어 둠(하나면 없어도 됨) element={<Nav />}이 경로에서는 <Nav />라는 React 컴포넌트를 렌더링해라는 뜻
           <>
             <Route path='/' element={<Home />} />
-            <Route path='/profile' element={<Profile />} />
+            <Route path='/profile' element={isLoggedIn ? <Profile /> : <Navigate to='/' />} />
           </>
         ) : (
           <>
-            <Route path='/' element={<Auth />} />
+            <Route path='/auth' element={isLoggedIn ? <Auth /> : <Navigate to='/' />} />
           </>
         )}
       </Routes>

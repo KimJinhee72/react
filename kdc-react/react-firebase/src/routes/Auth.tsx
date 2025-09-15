@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -14,7 +17,7 @@ import {
 export const Auth: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [newJoin, setNewJoin] = useState<boolean>(true);
+  const [newJoin, setNewJoin] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   const auth = getAuth();
@@ -104,7 +107,7 @@ export const Auth: React.FC = () => {
             const loginResult = await signInWithPopup(auth, existingProvider);
             await linkWithCredential(loginResult.user, pendingCred);
             console.log('자동 계정 연결 완료', loginResult.user);
-          } catch (linkError: any) {
+          } catch (linkError: unknown) {
             console.error('계정 연결 실패:', linkError);
             setErrorMsg('자동 계정 연결 중 문제가 발생했습니다.');
           }
@@ -117,17 +120,16 @@ export const Auth: React.FC = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={onSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px' }}
-      >
+    <div style={{ marginTop: '30px' }}>
+      <form onSubmit={onSubmit} style={{ display: 'flex', gap: '10px' }}>
         <input
           type='email'
           name='email'
           placeholder='Email 필수'
           required
           value={email}
+          autoComplete='email' // <- 추가
+          // style={{ padding: '5px' }}
           onChange={onChange}
         />
         <input
@@ -136,27 +138,56 @@ export const Auth: React.FC = () => {
           placeholder='Password 필수'
           required
           value={password}
+          autoComplete='current-password' // <- 추가
           onChange={onChange}
         />
-        <button type='submit'>{newJoin ? 'Sign up' : 'Log in'}</button>
+        <Button type='submit' variant={newJoin ? 'primary' : 'success'}>
+          {newJoin ? 'Sign up' : 'Log in'}
+        </Button>
 
         {!newJoin && (
-          <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-            <button type='button' name='google' onClick={onSocialLoginClick}>
-              Google 로그인
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <button
+              type='button'
+              name='google'
+              // variant='outline-primary'
+              style={{
+                width: '35px',
+                height: '35px',
+                border: 'none',
+                background: 'none',
+                padding: '1px',
+              }}
+              onClick={onSocialLoginClick}
+            >
+              <img src='/Mask group.svg' alt='구글이미지' style={{ width: '100%' }} />
             </button>
-            <button type='button' name='github' onClick={onSocialLoginClick}>
-              GitHub 로그인
+            <button
+              type='button'
+              name='github'
+              // variant='outline-secondary'
+              style={{
+                width: '35px',
+                height: '35px',
+                border: 'none',
+                background: 'none',
+                padding: '1px',
+              }}
+              onClick={onSocialLoginClick}
+            >
+              <img src='/image 137.svg' alt='깃허브이미지' style={{ width: '100%' }} />
             </button>
           </div>
         )}
-
-        {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
       </form>
+      {/* 로그인 에러메시지 */}
+      {errorMsg && (
+        <p style={{ color: 'red', whiteSpace: 'break-spaces', margin: '10px 0' }}>{errorMsg}</p>
+      )}
 
       <div
         onClick={toggleJoinaccount}
-        style={{ textDecoration: 'underline', cursor: 'pointer', marginTop: '10px' }}
+        style={{ textDecoration: 'underline', cursor: 'pointer', marginTop: '20px' }}
       >
         {newJoin ? '이미 계정이 있다면 로그인' : '회원가입 원하면 클릭'}
       </div>

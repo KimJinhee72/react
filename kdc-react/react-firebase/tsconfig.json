@@ -23,6 +23,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "useUnknownInCatchVariables": false
   },
   "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
