@@ -3,6 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const Nav: React.FC = () => (
+  <>
+  <h2>Navigation</h2>
   <nav>
     <ul style={{display:'flex', gap:'10px'}}>
       <li style={{ listStyle: 'none' }}>
@@ -13,4 +15,5 @@ export const Nav: React.FC = () => (
       </li>
     </ul>
   </nav>
+  </>
 );
