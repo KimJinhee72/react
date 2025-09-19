@@ -1,5 +1,5 @@
 // Router.tsx → props로 받은 isLoggedIn 값에 따라 다른 화면 보여줌 true → Home 컴포넌트 보여줌 false → Auth 컴포넌트 보여줌
-import React from 'react';
+import React, { type JSX } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Auth } from '../pages/Auth';
 import { Home } from '../pages/Home';

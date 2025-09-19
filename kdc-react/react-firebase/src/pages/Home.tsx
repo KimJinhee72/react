@@ -23,7 +23,9 @@ type Post = {
   id: string;
   title: string;
   content: string;
-  date:Timestamp; // Timestamp라면 Firebase Timestamp 타입 써야 함
+  date: Timestamp; // Timestamp라면 Firebase Timestamp 타입 써야 함
+  userId: string | null; // 🔹 uid 저장 필드
+  userEmail?: string; // 선택적으로 이메일도
 };
 
 export const Home: React.FC<HomeProps> = ({ userObj }) => {
@@ -60,7 +62,7 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
     // getPosts();  // (주석처리된 함수, 원래는 DB에서 글 불러오기)
 
     // 1) 'posts'라는 컬렉션을 불러오고 'date' 필드 기준으로 내림차순 정렬 쿼리 만듦
-    const q = query(collection(db, 'posts'), orderBy('date','desc'));
+    const q = query(collection(db, 'posts'), orderBy('date', 'desc'));
 
     // 2) q 쿼리를 실시간 구독(onSnapshot) → Firestore가 변동될 때마다 자동으로 실행됨
     // 구독 시작
@@ -138,19 +140,21 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
       <form onSubmit={onSubmit}>
         {/* value= onchage이벤트로 변경된 value를 받아옴 onChange는 인풋값이 변하면 할일을 담는 이벤트 */}
         <input value={post} type='text' placeholder='새 포스트를 입력하세요' onChange={onChange} />
-        <Button type='submit' variant='success'>
+        <Button type='submit' variant='success' style={{ marginLeft: '5px' }}>
           등록
         </Button>
       </form>
       {/* 입력한 목록출력 */}
       <hr />
       <h3>Post List</h3>
-      <ul>
+      <ul style={{ padding: '0' }}>
         {/* 스크립트를 사용하여 불러와 작성 */}
         {posts.map((item) => (
           //반복문이라 key값이 꼭 필요함 <li key={item.id}>{item.post}</li>
-          //컴포넌트로 분리
-          <Post key={item.id} postObj={item.content} />
+          //컴포넌트로 분리// uid 글쓴사람인지 확인차 true/false 필요
+          //isOwener는item.userId === userObj → 현재 로그인한 사용자가 글 작성자(userId)와 같으면 true, 아니면 false
+          //삭제/수정 버튼이 글 작성자에게만 보여지는 것이 바로 이 로직
+          <Post key={item.id} postObj={item} isOwener={item.userId === userObj} />
         ))}
       </ul>
     </>

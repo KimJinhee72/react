@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { AppRouter } from './AppRouter';
 import { authService } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import '../assets/App.css';
+
 
 console.log('로그인 유저:', authService.currentUser);
 
@@ -47,12 +49,12 @@ export const App: React.FC = () => {
   // 앞isLoggedIn AppRouter 컴포넌트에서 받을 prop 이름   뒤쪽 {isLoggedIn} → App 컴포넌트 안에서 선언한 상태 변수(위에 const선언한) 값
   // JSX 반환은 컴포넌트 함수에서 직접
   return (
-    <>
+    <div style={{margin:'0 auto'}}>
       {checkingAuth ? (
         '회원정보 확인중...'
       ) : (
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> //userObj 유저정보
       )}
-    </>
+    </div>
   );
 };
