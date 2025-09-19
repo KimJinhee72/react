@@ -9,11 +9,12 @@ import { db } from '../firebase';
 interface PostProps {
   postObj: {
     date: Timestamp;
-    title: string;
+    title?: string;
     userEmail?: string;
     userId: string | null; // 🔹 uid 저장 필드
     content: string;
     id: string;
+    imageUrl?: string;
   };
   isOwener: boolean;
 }

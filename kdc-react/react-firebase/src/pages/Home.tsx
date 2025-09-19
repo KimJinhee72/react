@@ -15,6 +15,7 @@ import {
   onSnapshot,
   Timestamp, //onSnapshot 은 데이터가 바뀔 때마다 자동 호출 → 채팅, 실시간 글 목록, 알림 등에 유용
 } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 interface HomeProps {
   userObj: string | null;
 }
@@ -91,12 +92,62 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
 
   console.log(posts);
 
-  // onChange이벤트 입력값이 있으미 e매개변수 사용
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 입력값 변경
+  //Firebase Storage에서 가져오는 URL은 string이므로, 타입 안전하게 설정해야 함
+  const [attachment, setAttachment] = useState<string | null>(null);
+
+
+  // 1️⃣새post(글쓰기) 이름부분 onChange이벤트 입력값이 있으미 e매개변수 사용
+  // 파이어베이스 저장 담아두기
+  const storage = getStorage();
+  //onChange이벤트 입력값이 있으미 e매개변수 사용
+  const newPostInputonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 새포스트 이름 입력값 직접입력
     setPost(e.target.value);
   };
 
+  //2️⃣ 이미지등 파일업로드 onChange
+  const newPostinputFileonChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.files);
+    //해당파일정보 바로보기 가능
+    const theFile = e.target.files?.[0]; //?.해서 파일이 없으면 undefined가 되고, 있으면 첫 번째 파일이 들어옴.
+    // console.log(theFile);
+
+    // 파일이 없으면 함수를 멈추어 이후 코드가 실행되지 않게 함.
+    if (!theFile) return;
+
+    // 2️⃣.1️⃣파일 미리보기용 브라우저 내장 FileReader 인스턴스 생성. 파일을 비동기적으로 읽는 도구.
+    // 파일을 읽는 도구(객체)를 하나 새로 만들어(다음 → reader.readAsDataURL(file) 같은 메서드를 호출해서 파일을 읽고, reader.result에 결과를 담기)
+    const reader = new FileReader();
+
+    // 🥇파일 읽기 완료 후 실행 파일 읽기가 완료(load 끝) 되었을 때 호출되는 핸들러(onloadend는 성공·실패 상관없이 끝났을 때 호출).
+    reader.onloadend = (ev) => {
+      console.log('읽기 완료:', reader.result); // 읽은 결과(여기서는 readAsDataURL 사용으로 base64 데이터 URL)가 듦
+      console.log('이벤트 객체:', e);
+       if (ev.target?.result) {
+      setAttachment(ev.target.result as string); // Base64 문자열 저장
+    }
+  };
+
+    // 🥈파일 읽기 시작 (base64 data URL로 변환). 이 호출이 있어야 onloadend가 트리거됨
+    reader.readAsDataURL(theFile);
+    console.log(attachment);
+
+
+    // 2️⃣.2️⃣실제 업로드는 Firebase Storage에 원본 파일을 전송
+    try {
+      const storageRef = ref(storage, `uploads/${theFile.name}`);
+      await uploadBytes(storageRef, theFile);
+
+      // 업로드된 파일의 URL 가져오기
+      const url = await getDownloadURL(storageRef);
+      console.log('Uploaded file URL:', url);
+
+      // Firestore에는 이 url만 저장하는 게 안전
+    } catch (error) {
+      console.error('파일 업로드 실패:', error);
+    }
+  };
+  //🥉
   // onSubmit  제출 이벤트 에러 확인하기 위해 try catch함수 이용
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
@@ -139,7 +190,17 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
     <>
       <form onSubmit={onSubmit}>
         {/* value= onchage이벤트로 변경된 value를 받아옴 onChange는 인풋값이 변하면 할일을 담는 이벤트 */}
-        <input value={post} type='text' placeholder='새 포스트를 입력하세요' onChange={onChange} />
+        <input
+          value={post}
+          type='text'
+          placeholder='새 포스트를 입력하세요'
+          onChange={newPostInputonChange}
+        />
+
+        {/* 이미지등 파일업로드 type="file" 파일등록 해야하니 꼭 필요/파일첨부accept 이미지파일만/ 미리보기도 가능하게*/}
+        <input type='file' accept='image/*' onChange={newPostinputFileonChange} />
+
+        {/* 글쓰기 등록 */}
         <Button type='submit' variant='success' style={{ marginLeft: '5px' }}>
           등록
         </Button>
@@ -159,4 +220,4 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
       </ul>
     </>
   );
-};
+}
