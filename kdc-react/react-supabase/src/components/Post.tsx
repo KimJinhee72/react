@@ -12,7 +12,7 @@ interface PostProps {
     title?: string;
     id: string;
     content: string; // 글 내용
-    userId: string | null; // 작성자 UID
+    userId: string; // 작성자 UID
     userEmail?: string; // 작성자 이메일(선택)
     imageUrl?: string; // ✅ Firestore에 저장한 이미지 URL
   };
