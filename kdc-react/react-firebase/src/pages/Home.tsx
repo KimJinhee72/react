@@ -95,7 +95,6 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
   //Firebase Storage에서 가져오는 URL은 string이므로, 타입 안전하게 설정해야 함
   const [attachment, setAttachment] = useState<string | null>(null);
 
-
   // 1️⃣새post(글쓰기) 이름부분 onChange이벤트 입력값이 있으미 e매개변수 사용
   // 파이어베이스 저장 담아두기
   const storage = getStorage();
@@ -123,15 +122,14 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
     reader.onloadend = (ev) => {
       console.log('읽기 완료:', reader.result); // 읽은 결과(여기서는 readAsDataURL 사용으로 base64 데이터 URL)가 듦
       console.log('이벤트 객체:', e);
-       if (ev.target?.result) {
-      setAttachment(ev.target.result as string); // Base64 문자열 저장
-    }
-  };
+      if (ev.target?.result) {
+        setAttachment(ev.target.result as string); // Base64 문자열 저장
+      }
+    };
 
     // 🥈파일 읽기 시작 (base64 data URL로 변환). 이 호출이 있어야 onloadend가 트리거됨
     reader.readAsDataURL(theFile);
     console.log(attachment);
-
 
     // 2️⃣.2️⃣실제 업로드는 Firebase Storage에 원본 파일을 전송
     try {
@@ -147,7 +145,7 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
       console.error('파일 업로드 실패:', error);
     }
   };
-  //🥉
+
   // onSubmit  제출 이벤트 에러 확인하기 위해 try catch함수 이용
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // 새로고침 막기
@@ -186,25 +184,47 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
     }
   };
 
+  //이미지 업로드취소
+const uploadCancelBtnClick = () => {
+  setAttachment(null);
+};
+
   return (
     <>
-      <form onSubmit={onSubmit}>
-        {/* value= onchage이벤트로 변경된 value를 받아옴 onChange는 인풋값이 변하면 할일을 담는 이벤트 */}
-        <input
-          value={post}
-          type='text'
-          placeholder='새 포스트를 입력하세요'
-          onChange={newPostInputonChange}
-        />
+      <div style={{ display: 'flex' }}>
+        <form onSubmit={onSubmit}>
+          {/* value= onchage이벤트로 변경된 value를 받아옴 onChange는 인풋값이 변하면 할일을 담는 이벤트 */}
+          <input
+            value={post}
+            type='text'
+            placeholder='새 포스트를 입력하세요'
+            onChange={newPostInputonChange}
+          />
 
-        {/* 이미지등 파일업로드 type="file" 파일등록 해야하니 꼭 필요/파일첨부accept 이미지파일만/ 미리보기도 가능하게*/}
-        <input type='file' accept='image/*' onChange={newPostinputFileonChange} />
+          {/* 이미지등 파일업로드 type="file" 파일등록 해야하니 꼭 필요/파일첨부accept 이미지파일만/ 미리보기도 가능하게*/}
+          <input type='file' accept='image/*' onChange={newPostinputFileonChange} />
+        </form>
 
         {/* 글쓰기 등록 */}
         <Button type='submit' variant='success' style={{ marginLeft: '5px' }}>
           등록
         </Button>
-      </form>
+      </div>
+      {/* 미리보기 */}
+      {attachment && (
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <img src={attachment} width='100px' alt='' />
+          <Button
+            type='submit'
+            variant='outline-danger'
+            style={{ height: '40px' }}
+            onClick={uploadCancelBtnClick}
+          >
+            업로드 취소
+          </Button>
+        </div>
+      )}
+
       {/* 입력한 목록출력 */}
       <hr />
       <h3>Post List</h3>
@@ -220,4 +240,4 @@ export const Home: React.FC<HomeProps> = ({ userObj }) => {
       </ul>
     </>
   );
-}
+};

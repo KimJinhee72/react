@@ -107,7 +107,7 @@ export const Post: React.FC<PostProps> = ({ postObj, isOwener }) => {
             justifyItems: 'center',
             alignItems: 'center',
             gap: '10px',
-            width: '500px',
+            width: '550px',
             height: '100px',
             margin: '10px 0',
             borderRadius: '8px',
